@@ -1,10 +1,9 @@
-export const ADD_PRODUCT = "ADD_PRODUCT"
-export const DELETE_PRODUCT = "DELETE_PRODUCT"
-export const SELECT_PRODUCT = "SELECT_PRODUCT"
-export const UPDATE_PRODUCT = "UPDATE_PRODUC"
-export const [INCREASE_QUANTITY] = 'INCREASE_QUANTITY'
-export const [DECREASE_QUANTITY] = 'DECREASE_QUANTITY'
-
+export const ADD_PRODUCT = "ADD_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const SELECT_PRODUCT = "SELECT_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
+export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const addProduct = (product) => {
   return {
       type: ADD_PRODUCT,

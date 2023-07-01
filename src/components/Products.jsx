@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Button from 'react-bootstrap/Button';
-import {useDispatch} from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { addProduct, updateQuantity } from '../actions/cartActions';
+
 const Product1 = () => {
   const dispatch = useDispatch();
+  const [newProduct, setNewProduct] = useState([]);
+  const quantityRef = useRef(null);
+
   const products = [
     {
       id:Date.now(),
@@ -35,22 +39,33 @@ const Product1 = () => {
     
     },
   ];
-  const newProduct=[];
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem('ListProduct')) || [];
+    setNewProduct(storedProducts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('ListProduct', JSON.stringify(newProduct));
+  }, []);
+
   const handleAddToCart = (product) => {
-    dispatch(addProduct(product));
-    newProduct.push(product)
-    localStorage.setItem("ListProduct",JSON.stringify(newProduct))
-    console.log("🚀 ~ file: Products.jsx:39 ~ handleAddToCart ~ newProduct:", newProduct)
-
+    const quantity = parseInt(quantityRef.current.value);
+    if (!isNaN(quantity)) {
+      const updatedProduct = {
+        quantity: quantity
+      };
+      dispatch(addProduct(updatedProduct));
+      dispatch(updateQuantity(product.id, quantity));
+      setNewProduct((prevProducts) => [...prevProducts, updatedProduct]);
+      quantityRef.current.value = 1; 
+    } else {
+      alert("Please enter a valid quantity");
+    }
   };
+  
 
-  const handleQuantity = (productId, event) => {
-    const quantity = event.target.value;
-    dispatch(updateQuantity(productId, quantity));
-  };
-
-  return (
-    <div style={{ width: '46%' }}>
+  return (          
+<div style={{ width: '46%' }}>
       <h2
         style={{
           backgroundColor: 'hsl(202, 40%, 63%)',
@@ -96,8 +111,12 @@ const Product1 = () => {
                 </Button>
                 <input
                   type="number"
-                  defaultValue={item.quantity}
-                  onChange={(event) => handleQuantity(item.id, event)}
+                  defaultValue={1}
+                  ref={quantityRef}
+                  onChange={(event) => {
+                    const quantity = parseInt(event.target.value);
+                    handleAddToCart(item, quantity);
+                  }}
                   style={{
                     width: '80px',
                     borderRadius: '5px',

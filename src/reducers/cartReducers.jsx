@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DELETE_PRODUCT, SELECT_PRODUCT, UPDATE_PRODUCT, INCREASE_QUANTITY, DECREASE_QUANTITY } from "../actions/cartActions";
+import { ADD_PRODUCT, DELETE_PRODUCT, SELECT_PRODUCT, UPDATE_PRODUCT, INCREASE_QUANTITY, DECREASE_QUANTITY, UPDATE_QUANTITY } from "../actions/cartActions";
 
 const initState = {
   products: [],
@@ -11,6 +11,20 @@ const cartReducer = (state = initState, action) => {
       return {
         ...state,
         products: [...state.products, action.payload]
+      };
+    case UPDATE_QUANTITY:
+      const updatedProducts = state.products.map((product) => {
+        if (product.id === action.payload.productId) {
+          return {
+            ...product,
+            quantity: action.payload.quantity,
+          };
+        }
+        return product;
+      });
+      return {
+        ...state,
+        products: updatedProducts,
       };
     case DELETE_PRODUCT:
       return {

@@ -10,7 +10,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.6.2",
+    "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
+    "json-server": "^0.17.3",
     "mdb-react-ui-kit": "^6.1.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
@@ -22,6 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "jss": "json-server --watch  \"./db.json\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
